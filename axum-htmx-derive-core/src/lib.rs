@@ -34,7 +34,7 @@ fn transform_fn(layout_fn: String, item_fn: &mut ItemFn) -> ItemFn {
 
     // function template
     let template_fn: ItemFn = parse_quote!(
-        fn index(HxBoosted(boosted): HxBoosted) {
+        fn index(axum_htmx::HxBoosted(boosted): axum_htmx::HxBoosted) {
             if boosted {
                 result_boosted
             } else {

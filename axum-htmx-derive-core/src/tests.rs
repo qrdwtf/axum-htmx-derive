@@ -16,7 +16,7 @@ fn first() {
         }
     };
     let expected = quote! {
-        async fn index(Path(user_id): Path<u32>, HxBoosted(boosted): HxBoosted) -> Html<String> {
+        async fn index(Path(user_id): Path<u32>, axum_htmx::HxBoosted(boosted): axum_htmx::HxBoosted) -> Html<String> {
             let ctx = PageTemplate {
                 locale: "en".to_string(),
             };
