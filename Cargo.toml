@@ -1,0 +1,16 @@
+[package]
+name = "axum-htmx-derive"
+version = "0.1.0"
+edition = "2021"
+
+[workspace]
+members = ["axum-htmx-derive-boosted-by", "axum-htmx-derive-core"]
+resolver = "2"
+
+# See more keys and their definitions at https://doc.rust-lang.org/cargo/reference/manifest.html
+
+[dependencies]
+axum-htmx-derive-boosted-by = { path = "axum-htmx-derive-boosted-by" }
+
+[dev-dependencies]
+trybuild = "1.0"
