@@ -24,12 +24,12 @@ fn first() {
             if boosted {
                 Html(ctx.render_once().unwrap_or(String::new()))
             } else {
-                with_layout(Html(ctx.render_once().unwrap_or(String::new())))
+                with_layout(Html(ctx.render_once().unwrap_or(String::new())), state1, state2)
             }
         }
     };
 
-    let after = boosted_by(quote!(with_layout), before);
+    let after = boosted_by(quote! {with_layout, state1, state2}, before);
 
     assert_tokens_eq(&expected, &after);
 

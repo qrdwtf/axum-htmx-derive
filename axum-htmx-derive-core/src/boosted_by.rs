@@ -1,7 +1,7 @@
 use quote::quote;
 use syn::{parse_quote, parse_str, ItemFn};
 
-pub fn transform_fn(layout_fn: String, item_fn: &mut ItemFn) -> ItemFn {
+pub fn transform_fn(item_fn: &mut ItemFn, layout_fn: String, args: Vec<String>) -> ItemFn {
     // println!("input code  : {}", quote!(#item_fn));
     // println!("input syntax: {:?}", item_fn);
 
@@ -11,7 +11,7 @@ pub fn transform_fn(layout_fn: String, item_fn: &mut ItemFn) -> ItemFn {
             if boosted {
                 result_boosted
             } else {
-                layout_fn(result_with_layout)
+                layout_fn(result_with_layout, fn_args)
             }
         }
     );
@@ -23,11 +23,14 @@ pub fn transform_fn(layout_fn: String, item_fn: &mut ItemFn) -> ItemFn {
     // pop the last statement and wrap it with if-else
     let modify_stmt = item_fn.block.stmts.pop().unwrap();
     let modify_stmt = quote!(#modify_stmt).to_string();
+    let modify_args = args.join("");
+
     let new_fn_str = quote!(#template_fn)
         .to_string()
         .replace("layout_fn", layout_fn.as_str())
         .replace("result_boosted", modify_stmt.as_str())
-        .replace("result_with_layout", modify_stmt.as_str());
+        .replace("result_with_layout", modify_stmt.as_str())
+        .replace(", fn_args", modify_args.as_str());
 
     let new_fn: ItemFn = parse_str(new_fn_str.as_str()).unwrap();
     let new_fn_stmt = new_fn.block.stmts.first().unwrap().clone();
